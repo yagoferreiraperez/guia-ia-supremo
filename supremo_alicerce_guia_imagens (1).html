@@ -1,0 +1,2295 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Supremo Alicerce — Guia de IA Visual para Construção Civil</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
+
+  :root {
+    --laranja: #E85C1A;
+    --laranja-escuro: #B8430E;
+    --laranja-claro: #FFF0E8;
+    --cinza-escuro: #1A1A18;
+    --cinza-medio: #3A3A36;
+    --cinza-texto: #6B6B64;
+    --cinza-borda: #E5E4DE;
+    --cinza-fundo: #F7F6F2;
+    --branco: #FFFFFF;
+    --verde: #1D7A50;
+    --verde-claro: #E8F5EE;
+    --azul: #1A4FA0;
+    --azul-claro: #E8EFFE;
+    --amarelo: #B87A00;
+    --amarelo-claro: #FFF8E0;
+    --roxo: #6B3FA0;
+    --roxo-claro: #F3EEFF;
+    --vermelho: #C0230C;
+    --vermelho-claro: #FFF0EE;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cinza-escuro);
+    color: var(--cinza-escuro);
+    min-height: 100vh;
+  }
+
+  .capa {
+    background: var(--cinza-escuro);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 60px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .capa::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(232,92,26,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .capa::after {
+    content: '';
+    position: absolute;
+    bottom: -100px; left: -100px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(232,92,26,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .logo-area {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 60px;
+  }
+
+  .logo-icon {
+    width: 52px; height: 52px;
+    background: var(--laranja);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; font-weight: 800; color: white;
+    font-family: 'Syne', sans-serif;
+  }
+
+  .logo-nome {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px; font-weight: 700;
+    color: white;
+    text-align: left;
+    line-height: 1.2;
+  }
+
+  .logo-nome span {
+    display: block;
+    font-size: 12px; font-weight: 400;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .badge-guia {
+    background: rgba(232,92,26,0.15);
+    border: 1px solid rgba(232,92,26,0.3);
+    color: var(--laranja);
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 6px 16px; border-radius: 999px;
+    margin-bottom: 28px;
+  }
+
+  .capa h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(30px, 5vw, 54px);
+    font-weight: 800;
+    color: white;
+    line-height: 1.1;
+    max-width: 760px;
+    margin-bottom: 20px;
+  }
+
+  .capa h1 em {
+    font-style: normal;
+    color: var(--laranja);
+  }
+
+  .capa p {
+    font-size: 18px; font-weight: 300;
+    color: rgba(255,255,255,0.6);
+    max-width: 560px;
+    line-height: 1.6;
+    margin-bottom: 48px;
+  }
+
+  .stats-capa {
+    display: flex; gap: 40px; flex-wrap: wrap; justify-content: center;
+    margin-bottom: 60px;
+  }
+
+  .stat-item { text-align: center; }
+
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 36px; font-weight: 800;
+    color: var(--laranja);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 12px; color: rgba(255,255,255,0.45);
+    text-transform: uppercase; letter-spacing: 0.1em;
+    margin-top: 4px;
+  }
+
+  .btn-comecar {
+    background: var(--laranja);
+    color: white;
+    border: none;
+    font-family: 'Syne', sans-serif;
+    font-size: 15px; font-weight: 600;
+    padding: 16px 36px; border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none; display: inline-block;
+  }
+
+  .btn-comecar:hover { background: var(--laranja-escuro); transform: translateY(-2px); }
+
+  .conteudo {
+    background: var(--cinza-fundo);
+    display: none;
+  }
+
+  .conteudo.ativo { display: block; }
+
+  .header-sticky {
+    background: white;
+    border-bottom: 1px solid var(--cinza-borda);
+    padding: 0 40px;
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; gap: 24px;
+    height: 60px;
+  }
+
+  .header-logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px; font-weight: 700;
+    color: var(--cinza-escuro);
+    display: flex; align-items: center; gap: 8px;
+    white-space: nowrap;
+  }
+
+  .header-logo-dot {
+    width: 8px; height: 8px;
+    background: var(--laranja); border-radius: 50%;
+  }
+
+  .nav-etapas {
+    display: flex; gap: 4px; overflow-x: auto; flex: 1;
+    scrollbar-width: none;
+  }
+
+  .nav-etapas::-webkit-scrollbar { display: none; }
+
+  .nav-btn {
+    padding: 6px 14px; border-radius: 6px; border: none;
+    background: transparent; font-size: 12px; font-weight: 500;
+    color: var(--cinza-texto); cursor: pointer; white-space: nowrap;
+    transition: all 0.15s;
+  }
+
+  .nav-btn:hover { background: var(--cinza-fundo); color: var(--cinza-escuro); }
+  .nav-btn.ativo { background: var(--laranja-claro); color: var(--laranja); }
+
+  .intro-section {
+    background: var(--cinza-escuro);
+    padding: 64px 40px;
+    text-align: center;
+  }
+
+  .intro-section h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 36px; font-weight: 800;
+    color: white; margin-bottom: 16px;
+  }
+
+  .intro-section p {
+    color: rgba(255,255,255,0.6);
+    font-size: 16px; max-width: 620px; margin: 0 auto 40px;
+    line-height: 1.6;
+  }
+
+  .regras-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    max-width: 1000px;
+    margin: 0 auto 40px;
+    text-align: left;
+  }
+
+  .regra-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 20px;
+  }
+
+  .regra-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px; font-weight: 800;
+    color: var(--laranja);
+    margin-bottom: 8px;
+    line-height: 1;
+  }
+
+  .regra-titulo {
+    font-size: 14px; font-weight: 600;
+    color: white; margin-bottom: 6px;
+  }
+
+  .regra-desc {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.5;
+  }
+
+  .badge-tipo {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.06em;
+    padding: 4px 12px; border-radius: 999px;
+    margin-bottom: 40px;
+  }
+
+  .badge-tipo.camera { background: rgba(107,63,160,0.2); color: #A07AE0; border: 1px solid rgba(107,63,160,0.3); }
+  .badge-tipo.geracao { background: rgba(232,92,26,0.2); color: var(--laranja); border: 1px solid rgba(232,92,26,0.3); }
+
+  .plataformas-box {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 24px 28px;
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: left;
+  }
+
+  .plataformas-box h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px; font-weight: 700;
+    color: white; margin-bottom: 14px;
+  }
+
+  .plataformas-lista {
+    display: flex; flex-wrap: wrap; gap: 10px;
+  }
+
+  .plataforma-pill {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.7);
+    font-size: 12px; font-weight: 500;
+    padding: 6px 14px; border-radius: 999px;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  .plataforma-pill strong { color: white; }
+
+  .etapas-container {
+    padding: 48px 40px;
+    max-width: 1200px; margin: 0 auto;
+  }
+
+  .etapas-titulo {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px; font-weight: 600;
+    color: var(--cinza-texto);
+    text-transform: uppercase; letter-spacing: 0.1em;
+    margin-bottom: 24px;
+  }
+
+  .etapa-card {
+    background: white;
+    border: 1px solid var(--cinza-borda);
+    border-radius: 16px;
+    margin-bottom: 24px;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+
+  .etapa-card:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
+
+  .etapa-header {
+    display: flex; align-items: center; gap: 20px;
+    padding: 24px 28px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .etapa-numero {
+    width: 48px; height: 48px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 18px; font-weight: 800;
+    flex-shrink: 0;
+  }
+
+  .etapa-info { flex: 1; }
+
+  .etapa-nome {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px; font-weight: 700;
+    color: var(--cinza-escuro);
+    margin-bottom: 4px;
+  }
+
+  .etapa-desc {
+    font-size: 13px; color: var(--cinza-texto);
+  }
+
+  .etapa-tags {
+    display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px;
+  }
+
+  .tag {
+    font-size: 11px; font-weight: 500;
+    padding: 3px 10px; border-radius: 999px;
+    background: var(--cinza-fundo); color: var(--cinza-texto);
+  }
+
+  .tag-camera {
+    font-size: 11px; font-weight: 500;
+    padding: 3px 10px; border-radius: 999px;
+    background: #F3EEFF; color: var(--roxo);
+  }
+
+  .tag-geracao {
+    font-size: 11px; font-weight: 500;
+    padding: 3px 10px; border-radius: 999px;
+    background: var(--laranja-claro); color: var(--laranja);
+  }
+
+  .etapa-toggle {
+    font-size: 18px; color: var(--cinza-texto);
+    transition: transform 0.25s;
+    flex-shrink: 0;
+  }
+
+  .etapa-toggle.aberto { transform: rotate(180deg); }
+
+  .etapa-corpo {
+    display: none;
+    border-top: 1px solid var(--cinza-borda);
+    padding: 28px;
+  }
+
+  .etapa-corpo.aberto { display: block; }
+
+  .secao-prompts { margin-bottom: 28px; }
+
+  .secao-titulo {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13px; font-weight: 600; color: var(--cinza-texto);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    margin-bottom: 14px;
+  }
+
+  .secao-titulo::after {
+    content: ''; flex: 1;
+    height: 1px; background: var(--cinza-borda);
+  }
+
+  .secao-icone {
+    width: 20px; height: 20px; border-radius: 5px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; flex-shrink: 0;
+  }
+
+  .prompt-card {
+    background: var(--cinza-fundo);
+    border: 1px solid var(--cinza-borda);
+    border-radius: 12px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+
+  .prompt-card-header {
+    padding: 16px 20px;
+    display: flex; align-items: flex-start; gap: 14px;
+    cursor: pointer;
+  }
+
+  .prompt-card-icone {
+    font-size: 18px; flex-shrink: 0; margin-top: 2px;
+  }
+
+  .prompt-card-titulo {
+    font-size: 14px; font-weight: 600;
+    color: var(--cinza-escuro); margin-bottom: 3px;
+  }
+
+  .prompt-card-subtitulo {
+    font-size: 12px; color: var(--cinza-texto);
+  }
+
+  .prompt-card-badge {
+    font-size: 10px; font-weight: 600;
+    padding: 2px 8px; border-radius: 999px;
+    margin-left: auto; flex-shrink: 0;
+    align-self: center;
+    white-space: nowrap;
+  }
+
+  .badge-foto { background: #F3EEFF; color: var(--roxo); }
+  .badge-gerar { background: var(--laranja-claro); color: var(--laranja); }
+  .badge-dono { background: var(--verde-claro); color: var(--verde); }
+  .badge-emergencia { background: var(--vermelho-claro); color: var(--vermelho); }
+  .badge-avancado { background: var(--azul-claro); color: var(--azul); }
+  .badge-essencial { background: var(--amarelo-claro); color: var(--amarelo); }
+
+  .prompt-card-corpo {
+    display: none;
+    border-top: 1px solid var(--cinza-borda);
+    padding: 0;
+  }
+
+  .prompt-card-corpo.aberto { display: block; }
+
+  .prompt-texto-area { padding: 16px 20px; }
+
+  .prompt-descricao {
+    font-size: 13px; color: var(--cinza-texto);
+    line-height: 1.5; margin-bottom: 12px;
+  }
+
+  .prompt-bloco {
+    background: white;
+    border: 1px solid var(--cinza-borda);
+    border-radius: 8px;
+    padding: 16px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px; line-height: 1.7;
+    color: var(--cinza-escuro);
+    white-space: pre-wrap;
+    position: relative;
+  }
+
+  .btn-copiar {
+    position: absolute; top: 8px; right: 8px;
+    background: var(--cinza-fundo); border: 1px solid var(--cinza-borda);
+    color: var(--cinza-texto); font-size: 11px;
+    padding: 3px 8px; border-radius: 4px;
+    cursor: pointer; font-family: 'Inter', sans-serif; font-weight: 500;
+    transition: all 0.15s;
+  }
+
+  .btn-copiar:hover { background: var(--laranja-claro); color: var(--laranja); border-color: rgba(232,92,26,0.3); }
+
+  .prompt-dica {
+    background: var(--amarelo-claro);
+    border: 1px solid rgba(184,122,0,0.2);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 12px; color: #7A5000;
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+
+  .prompt-dica-azul {
+    background: var(--azul-claro);
+    border: 1px solid rgba(26,79,160,0.2);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 12px; color: var(--azul);
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+
+  .prompt-dica-roxo {
+    background: var(--roxo-claro);
+    border: 1px solid rgba(107,63,160,0.2);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 12px; color: var(--roxo);
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+
+  .checklist-area {
+    background: var(--verde-claro);
+    border: 1px solid rgba(29,122,80,0.2);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-top: 8px;
+  }
+
+  .checklist-titulo {
+    font-size: 13px; font-weight: 600; color: var(--verde);
+    margin-bottom: 10px;
+  }
+
+  .checklist-item {
+    display: flex; align-items: flex-start; gap: 8px;
+    font-size: 13px; color: #1A5A3A;
+    margin-bottom: 6px; line-height: 1.4;
+  }
+
+  .check-box {
+    width: 16px; height: 16px; border: 1.5px solid var(--verde);
+    border-radius: 4px; flex-shrink: 0; margin-top: 1px;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    font-size: 10px; color: white;
+    transition: all 0.15s;
+  }
+
+  .check-box.marcado { background: var(--verde); border-color: var(--verde); }
+
+  .rodape {
+    background: var(--cinza-escuro);
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    padding: 32px 40px;
+    font-size: 13px;
+  }
+
+  .rodape strong { color: white; }
+
+  .painel-prompt {
+    position: fixed; bottom: 24px; right: 24px;
+    background: var(--laranja); color: white;
+    border-radius: 12px; padding: 12px 20px;
+    font-family: 'Syne', sans-serif;
+    font-size: 14px; font-weight: 600;
+    cursor: pointer; z-index: 200;
+    box-shadow: 0 4px 20px rgba(232,92,26,0.4);
+    transition: all 0.2s;
+    display: none;
+  }
+
+  .painel-prompt.visivel { display: block; }
+  .painel-prompt:hover { background: var(--laranja-escuro); transform: translateY(-2px); }
+
+  @media (max-width: 600px) {
+    .etapas-container { padding: 32px 20px; }
+    .header-sticky { padding: 0 20px; }
+    .intro-section { padding: 48px 20px; }
+    .stats-capa { gap: 24px; }
+    .regras-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- CAPA -->
+<div class="capa" id="capa">
+  <div class="logo-area">
+    <div class="logo-icon">SA</div>
+    <div class="logo-nome">
+      Supremo Alicerce
+      <span>A melhor base de tecnologia para a construção civil</span>
+    </div>
+  </div>
+
+  <div class="badge-guia">Guia Visual de IA · 2025 · Prompts de Imagem</div>
+
+  <h1>Construção Civil com <em>IA Visual</em></h1>
+  <p>Da fundação ao telhado — envie fotos, esboços e documentos da sua obra e obtenha renders profissionais, diagnósticos visuais, planilhas e muito mais.</p>
+
+  <div class="stats-capa">
+    <div class="stat-item">
+      <div class="stat-num">10</div>
+      <div class="stat-label">Etapas da obra</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">80+</div>
+      <div class="stat-label">Prompts visuais</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Imagem como ferramenta</div>
+    </div>
+  </div>
+
+  <button class="btn-comecar" onclick="abrirGuia()">Acessar o Guia Completo →</button>
+</div>
+
+<!-- CONTEÚDO PRINCIPAL -->
+<div class="conteudo" id="conteudo">
+
+  <div class="header-sticky">
+    <div class="header-logo">
+      <div class="header-logo-dot"></div>
+      Supremo Alicerce
+    </div>
+    <nav class="nav-etapas">
+      <button class="nav-btn" onclick="irParaEtapa(0)">🎯 Regras</button>
+      <button class="nav-btn" onclick="irParaEtapa(1)">📐 Projeto</button>
+      <button class="nav-btn" onclick="irParaEtapa(2)">⚓ Fundação</button>
+      <button class="nav-btn" onclick="irParaEtapa(3)">🏗 Estrutura</button>
+      <button class="nav-btn" onclick="irParaEtapa(4)">🧱 Alvenaria</button>
+      <button class="nav-btn" onclick="irParaEtapa(5)">🏠 Telhado</button>
+      <button class="nav-btn" onclick="irParaEtapa(6)">⚡ Instalações</button>
+      <button class="nav-btn" onclick="irParaEtapa(7)">🪟 Revestimentos</button>
+      <button class="nav-btn" onclick="irParaEtapa(8)">🎨 Acabamentos</button>
+      <button class="nav-btn" onclick="irParaEtapa(9)">📊 Gestão</button>
+    </nav>
+  </div>
+
+  <!-- INTRO -->
+  <div class="intro-section" id="etapa-0">
+    <h2>As Regras de Ouro da IA Visual na Obra</h2>
+    <p>Antes de usar qualquer prompt, entenda como a IA de imagem funciona. Quanto melhor você descrever e fotografar, mais preciso será o resultado — seja para analisar problemas reais ou criar visualizações profissionais.</p>
+
+    <div class="regras-grid">
+      <div class="regra-card">
+        <div class="regra-num">01</div>
+        <div class="regra-titulo">Fotografe com contexto</div>
+        <div class="regra-desc">Coloque uma régua, fita métrica ou objeto de referência ao lado. Inclua o entorno, não só o detalhe. A IA precisa de escala para analisar corretamente.</div>
+      </div>
+      <div class="regra-card">
+        <div class="regra-num">02</div>
+        <div class="regra-titulo">Diga o que você quer, não o que você viu</div>
+        <div class="regra-desc">Em vez de "tem uma coisa estranha na parede", diga "nesta foto há uma fissura diagonal de aprox. 15cm na parede da sala — analise a gravidade e possível causa".</div>
+      </div>
+      <div class="regra-card">
+        <div class="regra-num">03</div>
+        <div class="regra-titulo">Forneça o contexto da obra</div>
+        <div class="regra-desc">Informe: etapa da obra, tipo de estrutura, material usado, e o que já foi feito. A IA precisa dessas informações para dar respostas realmente úteis.</div>
+      </div>
+      <div class="regra-card">
+        <div class="regra-num">04</div>
+        <div class="regra-titulo">Itere, não descarte</div>
+        <div class="regra-desc">Se o resultado ficou 80% bom, peça ajustes específicos: "Mude a cor da fachada para cimento queimado" ou "Adicione um pergolado na garagem". Não refaça do zero.</div>
+      </div>
+      <div class="regra-card">
+        <div class="regra-num">05</div>
+        <div class="regra-titulo">Tipo de prompt: 📸 Análise vs 🎨 Geração</div>
+        <div class="regra-desc">📸 Análise: você envia uma foto real e pede diagnóstico/transformação. 🎨 Geração: você descreve e a IA cria a imagem do zero. Cada um tem seu momento na obra.</div>
+      </div>
+      <div class="regra-card">
+        <div class="regra-num">06</div>
+        <div class="regra-titulo">Use linguagem de diretor criativo</div>
+        <div class="regra-desc">Para gerar renders: descreva o estilo ("minimalista moderno"), a iluminação ("natural, tarde ensolarada"), o ângulo ("perspectiva de quem entra pela porta") e o acabamento ("porcelanato cinza polido 90x90").</div>
+      </div>
+    </div>
+
+    <div class="plataformas-box">
+      <h4>🛠 Plataformas recomendadas para cada tipo de tarefa</h4>
+      <div class="plataformas-lista">
+        <div class="plataforma-pill">🔍 <strong>Gemini</strong> — Análise de fotos + busca de normas</div>
+        <div class="plataforma-pill">🎨 <strong>ChatGPT-4o</strong> — Transformar fotos + análise visual</div>
+        <div class="plataforma-pill">🏗 <strong>Google AI Studio</strong> — Renders e infográficos</div>
+        <div class="plataforma-pill">📐 <strong>DALL-E 3</strong> — Projetos e visualizações arquitetônicas</div>
+        <div class="plataforma-pill">✏️ <strong>Midjourney</strong> — Renders fotorrealistas de alta qualidade</div>
+        <div class="plataforma-pill">📊 <strong>Claude</strong> — Analisar documentos + converter anotações</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ETAPAS -->
+  <div class="etapas-container">
+    <div class="etapas-titulo">Etapas da obra — clique para ver os prompts visuais</div>
+
+    <!-- ==================== ETAPA 1: PROJETO ==================== -->
+    <div class="etapa-card" id="etapa-1">
+      <div class="etapa-header" onclick="toggleEtapa(1)">
+        <div class="etapa-numero" style="background:#FFF0E8;color:#E85C1A;">📐</div>
+        <div class="etapa-info">
+          <div class="etapa-nome">Planejamento e Projeto</div>
+          <div class="etapa-desc">Do esboço no papel ao render profissional — antes de comprar um tijolo</div>
+          <div class="etapa-tags">
+            <span class="tag-camera">📸 Análise</span>
+            <span class="tag-geracao">🎨 Geração</span>
+            <span class="tag">Arquiteto</span>
+            <span class="tag">Dono da obra</span>
+            <span class="tag">Engenheiro</span>
+          </div>
+        </div>
+        <span class="etapa-toggle" id="toggle-1">▼</span>
+      </div>
+
+      <div class="etapa-corpo" id="corpo-1">
+        <div class="secao-prompts">
+          <div class="secao-titulo">
+            <div class="secao-icone" style="background:#F3EEFF;color:#6B3FA0;">📸</div>
+            Analisar e transformar imagens existentes
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header" onclick="togglePrompt(this)">
+              <div class="prompt-card-icone">✏️</div>
+              <div>
+                <div class="prompt-card-titulo">Esboço no guardanapo → Planta baixa profissional</div>
+                <div class="prompt-card-subtitulo">Envie um desenho à mão e receba um layout organizado</div>
+              </div>
+              <span class="prompt-card-badge badge-foto">📸 Foto</span>
+            </div>
+            <div class="prompt-card-corpo">
+              <div class="prompt-texto-area">
+                <div class="prompt-descricao">📎 <strong>Anexe:</strong> foto do seu esboço, rascunho ou croqui desenhado à mão (quanto mais legível, melhor o resultado).</div>
+                <div class="prompt-bloco">Esta é uma foto do meu esboço de planta baixa desenhado à mão.
+
+Quero que você:
+1. Interprete e organize o layout dos cômodos que desenhei
+2. Gere uma representação visual limpa e profissional desta planta baixa, com linhas precisas, escala visual coerente e identificação de cada cômodo
+3. Inclua portas e janelas conforme sugeri no esboço
+4. Use estilo de planta técnica arquitetônica (linhas pretas sobre fundo branco)
+5. Adicione legenda com os nomes dos ambientes e metragem estimada de cada um
+
+Dados adicionais que tenho:
+- Área total do terreno: [___] m²
+- Área total a construir: [___] m²
+- Número de quartos: [___]
+- Número de banheiros: [___]
+- Programa de necessidades especiais: [home office / área gourmet / garagem p/ [___] carros / etc.]
+                  <button class="btn-copiar" onclick="copiarBloco(this)">Copiar</button></div>
+                <div class="prompt-dica">💡 Dica profissional: Para melhores resultados, fotografe o esboço com boa iluminação, sem sombras. Use o modo documento do seu celular se disponível.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header" onclick="togglePrompt(this)">
+              <div class="prompt-card-icone">📄</div>
+              <div>
+                <div class="prompt-card-titulo">Planta 2D em papel → Visualização 3D fotorrealista</div>
+                <div class="prompt-card-subtitulo">Veja como ficará antes de construir</div>
+              </div>
+              <span class="prompt-card-badge badge-foto">📸 Foto</span>
+            </div>
+            <div class="prompt-card-corpo">
+              <div class="prompt-texto-area">
+                <div class="prompt-descricao">📎 <strong>Anexe:</strong> foto ou scan da planta baixa do projeto (pode ser a planta do engenheiro ou arquiteto).</div>
+                <div class="prompt-bloco">Com base nesta planta baixa 2D, gere uma visualização 3D fotorrealista da residência finalizada.
+
+Estilo arquitetônico desejado: [moderno minimalista / contemporâneo / neoclássico / rústico / industrial / mediterrâneo]
+Fachada: [reboco liso / cimento queimado / pedra mineira / madeira / mista]
+Telhado: [laje impermeabilizada / telha cerâmica / telha metálica / duas águas / quatro águas]
+Cor principal da fachada: [___]
+Cor dos detalhes e esquadrias: [___]
+Período do dia: [manhã ensolarada / tarde / entardecer dourado]
+Vegetação: [sem / jardim simples / jardim elaborado / árvores grandes]
+
+Apresente:
+- Vista frontal (perspectiva de quem chega pelo portão)
+- Vista da área de lazer/fundos (se houver)
+- Qualidade: renderização fotorrealista 4K, iluminação natural
+                  <button class="btn-copiar" onclick="copiarBloco(this)">Copiar</button></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header" onclick="togglePrompt(this)">
+              <div class="prompt-card-icone">📊</div>
+              <div>
+                <div class="prompt-card-titulo">PDF/foto do orçamento → Planilha organizada</div>
+                <div class="prompt-card-subtitulo">Nunca mais perda um valor em papel amassado</div>
+              </div>
+              <span class="prompt-card-badge badge-foto">📸 Foto</span>
+            </div>
+            <div class="prompt-card-corpo">
+              <div class="prompt-texto-area">
+                <div class="prompt-descricao">📎 <strong>Anexe:</strong> foto da lista de materiais escrita no caderno, orçamento fotografado ou PDF do fornecedor.</div>
+                <div class="prompt-bloco">Esta é uma imagem/foto de um orçamento ou lista de materiais da minha obra.
+
+Por favor:
+1. Extraia TODOS os itens visíveis na imagem, mesmo que a foto não esteja perfeita
+2. Organize em uma tabela com as colunas:
+   [Item] | [Unidade] | [Qtd] | [Valor Unit.] | [Valor Total] | [Fornecedor]
+3. Se algum valor estiver ilegível, sinalize com [?]
+4. Calcule o subtotal e total geral
+5. Identifique os 3 itens de maior custo (atenção redobrada na negociação)
+6. Aponte itens com preço acima da média de mercado (se conseguir estimar)
+7. Sugira como organizar estes itens por etapa da obra
+                  <button class="btn-copiar" onclick="copiarBloco(this)">Copiar</button></div>
+                <div class="prompt-dica">💡 Funciona também com foto de nota fiscal, recibo manuscrito ou lista do pedreiro enviada por WhatsApp (screenshot).</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header" onclick="togglePrompt(this)">
+              <div class="prompt-card-icone">🏠</div>
+              <div>
+                <div class="prompt-card-titulo">Terreno vazio → Visualização do projeto no lote</div>
+                <div class="prompt-card-subtitulo">Veja a casa no lugar real antes de construir</div>
+              </div>
+              <span class="prompt-card-badge badge-foto">📸 Foto</span>
+            </div>
+            <div class="prompt-card-corpo">
+              <div class="prompt-texto-area">
+                <div class="prompt-descricao">📎 <strong>Anexe:</strong> foto do terreno vazio, de frente ou de cima (drone ou morro próximo).</div>
+                <div class="prompt-bloco">Esta é uma foto do meu terreno vazio. Quero visualizar como ficará a construção finalizada neste terreno.
+
+Sobre o projeto:
+- Tipo: [casa térrea / sobrado / sobrado com telhado aparente / térreo com laje]
+- Área ocupada do terreno: aproximadamente [___]% do lote
+- Estilo da fachada: [moderno / clássico / colonial / contemporâneo]
+- Garagem: [não tem / 1 carro embutida / 2 carros]
+- Muro: [não tem / baixo (rebocado) / alto (portão automático) / muro de pedra]
+- Jardim frontal: [sim / não]
+
+Mantenha:
+- A mesma perspectiva e ângulo da minha foto original
+- O entorno e vizinhança visíveis
+- A rua e calçada proporcionais ao que está na foto
+Gere renderização fotorrealista que pareça uma foto real do projeto finalizado.
+                  <button class="btn-copiar" onclick="copiarBloco(this)">Copiar</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="secao-prompts">
+          <div class="secao-titulo">
+            <div class="secao-icone" style="background:#FFF0E8;color:#E85C1A;">🎨</div>
+            Gerar imagens do projeto do zero
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header" onclick="togglePrompt(this)">
+              <div class="prompt-card-icone">🛋</div>
+              <div>
+                <div class="prompt-card-titulo">Criar moodboard de estilo para o projeto</div>
+                <div class="prompt-card-subtitulo">Defina a identidade visual antes de escolher os materiais</div>
+              </div>
+              <span class="prompt-card-badge badge-gerar">🎨 Geração</span>
+            </div>
+            <div class="prompt-card-corpo">
+              <div class="prompt-texto-area">
+                <div class="prompt-bloco">Crie um moodboard profissional para o projeto de uma residência [tipo: casa / apartamento / sitio / chácara].
+
+Estilo desejado: [moderno / rústico / industrial / escandinavo / tropical / art deco]
+
+Inclua no moodboard em layout colagem 4x3:
+- Paleta de cores da fachada (3–4 tons)
+- Textura do revestimento externo
+- Tipo de esquadria (janelas/portas) e sua cor
+- Piso do ambiente principal
+- Textura de parede interna
+- Estilo de iluminação (pendente / embutida / arandela)
+- Elemento decorativo característico do estilo escolhido
+- Tom do telhado (se aparente)
+
+Estilo visual do moodboard: painel editorial premium, como os de revistas de arquitetura brasileiras tipo Casa Vogue ou Architect & Design.
+                  <button class="btn-copiar" onclick="copiarBloco(this)">Copiar</button></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header" onclick="togglePrompt(this)">
+              <div class="prompt-card-icone">📋</div>
+              <div>
+                <div class="prompt-card-titulo">Gerar apresentação visual do projeto para aprovação</div>
+                <div class="prompt-card-subtitulo">Slide profissional para apresentar ao banco, parceiros ou família</div>
+              </div>
+              <span class="prompt-card-badge badge-gerar">🎨 Geração</span>
+            </div>
+            <div class="prompt-card-corpo">
+              <div class="prompt-texto-area">
+                <div class="prompt-descricao">📎 <strong>Opcional:</strong> envie esboços ou referências de estilo que você já tem.</div>
+                <div class="prompt-bloco">Crie um painel de apresentação profissional de projeto residencial, como os utilizados em portfólios de escritórios de arquitetura brasileiros.
+
+Dados do projeto:
+- Nome do projeto: [___]
+- Tipo: [casa / sobrado / edícula / reforma]
+- Área: [___] m²
+- Localização: [cidade / bairro / tipo de vizinhança]
+- Orçamento estimado: R$ [___]
+- Prazo previsto: [___] meses
+
+O painel deve conter:
+- Área superior: nome do projeto e logo [Supremo Alicerce] em destaque
+- Render 3D da fachada (estilo fotorrealista)
+- Planta esquemática simplificada
+- Paleta de materiais e acabamentos
+- Box de destaques: [área total / quartos / banheiros / vagas]
+- Rodapé profissional com data e versão
+
+Layout: formato A3 paisagem, estilo de escritório de arquitetura de alto padrão.
+                  <button class="btn-copiar" onclick="copiarBloco(this)">Copiar</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== ETAPA 2: FUNDAÇÃO ==================== -->
+    <div class="etapa-card" id="etapa-2">
+      <div class="etapa-header" onclick="toggleEtapa(2)">
+        <div class="etapa-numero" style="background:#E8F5EE;color:#1D7A50;">⚓</div>
+        <div class="etapa-info">
+          <div class="etapa-nome">Fundação e Ferragem</div>
+          <div class="etapa-desc">Análise visual de armação, concretagem e diagnóstico de problemas de solo</div>
+          <div class="etapa-tags">
+            <span class="tag-camera">📸 Análise</span>
+            <span class="tag-geracao">🎨 Geração</span>
+            <span class="tag">Ferreiro</span>
+            <span class="tag">Engenheiro estrutural</span>
+            <span class="tag">Dono da obra</span>
+          </div>
+        </div>
+        <span class="etapa-toggle" id="toggle-2">▼</span>
+      </div>
+
+      <div class="etapa-corpo" id="corpo-2">
+        <div class="secao-prompts">
+          <div class="secao-titulo">
+            <div class="secao-icone" style="background:#F3EEFF;color:#6B3FA0;">📸</div>
+            Análise de fotos da fundação
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header" onclick="togglePrompt(this)">
+              <div class="prompt-card-icone">🔩</div>
+              <div>
+                <div class="prompt-card-titulo">Foto da armação → Verificar espaçamento e cobrimento</div>
+                <div class="prompt-card-subtitulo">Detecte erros antes da concretagem — depois é tarde</div>
+              </div>
+              <span class="prompt-card-badge badge-foto">📸 Foto</span>
+            </div>
+            <div class="prompt-card-corpo">
+              <div class="prompt-texto-area">
+                <div class="prompt-descricao">📎 <strong>Anexe:</strong> foto clara da armação de aço antes da concretagem (tente mostrar vergalhões, espaçadores e espaçamento entre barras).</div>
+                <div class="prompt-bloco">Esta foto mostra a armação de aço da minha fundação [baldrame / sapata / bloco de coroamento] antes da concretagem.
+
+Por favor, analise visualmente:
+1. Espaçamento entre as barras — aparenta estar correto para uma fundação residencial?
+2. Os espaçadores (gabaritos) estão presentes e bem posicionados para garantir cobrimento mínimo?
+3. Há barras tortas, emendas aparentemente incorretas ou traspasses insuficientes?
+4. A armação está solta/sem amarração adequada?
+5. Existem pontos de ferrugem excessiva que possam comprometer a aderência com o concreto?
+
+Contexto adicional:
+- Tipo de fundação: [baldrame / sapata isolada / bloco / radier]
+- Bitola principal usada: [___] mm
+- Concreto previsto: [fck ___] MPa
+- Responsável técnico: [engenheiro / mestre de obras]
+
+Me dê um PARECER VISUAL: OK para concretar / Revisar antes de concretar / PARE e chame o engenheiro
+                  <button class="btn-copiar" onclick="copiarBloco(this)">Copiar</button></div>
+                <div class="prompt-dica">⚠️ A IA faz análise visual com base na foto. Para liberação oficial da concretagem, o ART do engenheiro responsável é obrigatório por norma.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header" onclick="togglePrompt(this)">
+              <div class="prompt-card-icone">💧</div>
+              <div>
+                <div class="prompt-card-titulo">Foto do terreno após chuva → Diagnóstico de drenagem</div>
+                <div class="prompt-card-subtitulo">Poça d'água no canteiro pode ser sinal de problema sério</div>
+              </div>
+              <span class="prompt-card-badge badge-emergencia">Emergência</span>
+            </div>
+            <div class="prompt-card-corpo">
+              <div class="prompt-texto-area">
+                <div class="prompt-descricao">📎 <strong>Anexe:</strong> foto do terreno ou canteiro mostrando acúmulo de água, erosão ou encharcamento após chuva.</div>
+                <div class="prompt-bloco">Esta foto foi tirada [horas/dias] após uma chuva no terreno/canteiro da minha obra.
+
+Analise o que está visível:
+1. Há acúmulo de água em pontos críticos? Em que locais?
+2. Existem sinais de erosão do solo?
+3. A água está próxima de elementos estruturais (fundação, baldrame)?
+4. O caimento do terreno favorece ou prejudica a drenagem?
+5. Há risco de recalque diferencial se a obra continuar sem intervenção?
+
+Contexto:
+- Etapa atual: [terreno limpo / fundação aberta / baldrame concluído]
+- Tipo de solo predominante: [argiloso / arenoso / barrento / misto]
+- A obra tem projeto de drenagem: [sim / não / não sei]
+
+Me entregue:
+- Diagnóstico visual do problema
+- Nível de urgência: [baixo / médio / alto / PARE A OBRA]
+- Solução imediata que o mestre de obras pode fazer hoje
+- Solução definitiva que precisa de projeto
+                  <button class="btn-copiar" onclick="copiarBloco(this)">Copiar</button></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header" onclick="togglePrompt(this)">
+              <div class="prompt-card-icone">📝</div>
+              <div>
+                <div class="prompt-card-titulo">Foto de croqui de fundação → Diagrama técnico profissional</div>
+                <div class="prompt-card-subtitulo">Transforme o rascunho do engenheiro em documento visual</div>
+              </div>
+              <span class="prompt-card-badge badge-foto">📸 Foto</span>
+            </div>
+            <div class="prompt-card-corpo">
+              <div class="prompt-texto-area">
+                <div class="prompt-descricao">📎 <strong>Anexe:</strong> foto do croqui ou esboço da fundação desenhado pelo engenheiro ou mestre de obras.</div>
+                <div class="prompt-bloco">Esta é uma foto de um croqui/esboço de planta de fundação desenhado à mão.
+
+Converta em um diagrama técnico profissional com:
+1. Planta de fundação limpa e organizada (linhas precisas, sem rabiscos)
+2. Identificação numerada de todos os elementos: [baldrame / sapatas / estacas / blocos]
+3. Cotas de comprimento nos elementos principais
+4. Indicação de eixos (A, B, C... / 1, 2, 3...)
+5. Legenda com tipos de fundação usados
+6. Norte arquitetônico (se indicado no esboço)
+7. Escala visual (barra de escala)
+
+Estilo visual: planta técnica de engenharia estrutural, fundo branco, linhas em preto e azul para armação.
+                  <button class="btn-copiar" onclick="copiarBloco(this)">Copiar</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="secao-prompts">
+          <div class="secao-titulo">
+            <div class="secao-icone" style="background:#E8F5EE;color:#1D7A50;">✅</div>
+            Checklist visual — Dono da obra
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header" onclick="togglePrompt(this)">
+              <div class="prompt-card-icone">🏛</div>
+              <div>
+                <div class="prompt-card-titulo">Foto da fundação concluída → Relatório de conformidade</div>
+                <div class="prompt-card-subtitulo">Documente antes de soterrar — você não vai ver mais isso</div>
+              </div>
+              <span class="prompt-card-badge badge-dono">Dono</span>
+            </div>
+            <div class="prompt-card-corpo">
+              <div class="prompt-texto-area">
+                <div class="prompt-descricao">📎 <strong>Anexe:</strong> 2 a 3 fotos da fundação concluída antes do aterro (baldrame, sapatas, etc.).</div>
+                <div class="prompt-bloco">Estas fotos mostram minha fundação recém-concluída, antes do aterro e início da alvenaria.
+
+Analise visualmente e me ajude a criar um RELATÓRIO FOTOGRÁFICO DE CONFORMIDADE com:
+
+1. Descrição do que está visível nas fotos
+2. Aspectos visuais positivos que observou
+3. Pontos de atenção (mesmo que não sejam problemas graves agora)
+4. O que verificar antes de autorizar o aterro:
+   - Cura do concreto completada?
+   - Impermeabilização do baldrame executada?
+   - Tubulações passantes marcadas e protegidas?
+   - Armação de espera para pilares posicionada?
+5. Gere um modelo de REGISTRO FOTOGRÁFICO para eu completar:
+   [Data | Etapa | Responsável | Observação | Status: OK / Pendência]
+                  <button class="btn-copiar" onclick="copiarBloco(this)">Copiar</button></div>
+                <div class="prompt-dica-azul">💡 Guarde todas as fotos de fundação no celular com a data. Em caso de recalque ou patologia futura, estas fotos são sua prova documental.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== ETAPA 3: ESTRUTURA ==================== -->
+    <div class="etapa-card" id="etapa-3">
+      <div class="etapa-header" onclick="toggleEtapa(3)">
+        <div class="etapa-numero" style="background:#E8EFFE;color:#1A4FA0;">🏗</div>
+        <div class="etapa-info">
+          <div class="etapa-nome">Estrutura — Pilares, Vigas e Lajes</div>
+          <div class="etapa-desc">Análise de prumo, nível, armação e fôrmas antes da concretagem</div>
+          <div class="etapa-tags">
+            <span class="tag-camera">📸 Análise</span>
+            <span class="tag">Engenheiro estrutural</span>
+            <span class="tag">Carpinteiro de fôrmas</span>
+            <span class="tag">Ferreiro</span>
+          </div>
+        </div>
+        <span class="etapa-toggle" id="toggle-3">▼</span>
+      </div>
+
+      <div class="etapa-corpo" id="corpo-3">
+        <div class="secao-prompts">
+          <div class="secao-titulo">
+            <div class="secao-icone" style="background:#E8EFFE;color:#1A4FA0;">📸</div>
+            Análise estrutural por imagem
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header" onclick="togglePrompt(this)">
+              <div class="prompt-card-icone">🏛</div>
+              <div>
+                <div class="prompt-card-titulo">Foto de pilar/viga → Verificar prumo e alinhamento</div>
+                <div class="prompt-card-subtitulo">Um pilar fora do prumo compromete toda a estrutura</div>
+              </div>
+              <span class="prompt-card-badge badge-foto">📸 Foto</span>
+            </div>
+            <div class="prompt-card-corpo">
+              <div class="prompt-texto-area">
+                <div class="prompt-descricao">📎 <strong>Anexe:</strong> foto do pilar ou viga de lado, com o maior campo de visão possível (use um ponto de referência horizontal no fundo, como uma parede ou calçada).</div>
+                <div class="prompt-bloco">Esta foto mostra [pilar / viga / conjunto de pilares] da minha obra em andamento.
+
+Analise visualmente:
+1. O pilar aparenta estar na vertical ou fora do prumo? Em qual direção?
+2. Consegue estimar visualmente o grau de desvio?
+3. As fôrmas parecem bem escoradas e travadas?
+4. Há espaçadores visíveis garantindo o cobrimento da armação?
+5. A base do pilar está limpa e bem posicionada sobre a fundação?
+
+Contexto:
+- Altura do pilar: aproximadamente [___] m
+- Seção do pilar: [___] x [___] cm
+- A foto foi tirada com: [nivel de bolha / sem referência de nível]
+- Referência no fundo da foto: [parede / piso / calçada / nenhuma]
+
+Me dê avaliação: APROVADO / REVISAR / PARALISAR ATÉ CORREÇÃO
+                  <button class="btn-copiar" onclick="copiarBloco(this)">Copiar</button></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header" onclick="togglePrompt(this)">
+              <div class="prompt-card-icone">🪵</div>
+              <div>
+                <div class="prompt-card-titulo">Foto da fôrma de laje → Verificar nivelamento e escoramento</div>
+                <div class="prompt-card-subtitulo">Flecha ou desnivelamento na fôrma = defeito permanente na laje</div>
+              </div>
+              <span class="prompt-card-badge badge-foto">📸 Foto</span>
+            </div>
+            <div class="prompt-card-corpo">
+              <div class="prompt-texto-area">
+                <div class="prompt-descricao">📎 <strong>Anexe:</strong> foto da fôrma de madeira ou metálica da laje, mostrando escoramentos e prumos.</div>
+                <div class="prompt-bloco">Esta é uma foto da fôrma e escoramento da minha laje, antes da concretagem.
+
+Analise:
+1. Os escoramentos (pontaletes) parecem suficientes e bem distribuídos?
+2. A fôrma aparenta estar nivelada ou há flexa visual?
+3. As juntas da fôrma estão bem vedadas (para evitar vazamento da nata)?
+4. Os escoramentos têm base adequada (não está sobre terra solta)?
+5. Há travamentos horizontais entre os escoramentos?
+
+Dados da laje:
+- Vão livre: [___] m
+- Espessura: [___] cm
+- Tipo: [maciça / nervurada / pré-moldada / protendida]
+- Área: [___] m²
+
+Checklist final: O que DEVO conferir pessoalmente antes de liberar a concretagem?
+                  <button class="btn-copiar" onclick="copiarBloco(this)">Copiar</button></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header" onclick="togglePrompt(this)">
+              <div class="prompt-card-icone">🗓</div>
+              <div>
+                <div class="prompt-card-titulo">Foto da concretagem → Relatório do dia para registro</div>
+                <div class="prompt-card-subtitulo">Diário de obra visual — prova documental da execução</div>
+              </div>
+              <span class="prompt-card-badge badge-dono">Dono</span>
+            </div>
+            <div class="prompt-card-corpo">
+              <div class="prompt-texto-area">
+                <div class="prompt-descricao">📎 <strong>Anexe:</strong> 1 a 4 fotos do dia da concretagem (bombeamento, vibração, acabamento de superfície).</div>
+                <div class="prompt-bloco">Estas fotos são do dia de concretagem da minha [laje / pilar / viga / fundação].
+
+Com base no que está visível, gere um RELATÓRIO DIÁRIO DE OBRA com:
+
+CABEÇALHO:
+- Data: [___]
+- Etapa: Concretagem de [___]
+- Responsável de campo: [___]
+- Clima: [ensolarado / nublado / chuva / calor intenso]
+
+DESCRIÇÃO DO SERVIÇO:
+(descreva o que aparece nas fotos em linguagem técnica)
+
+VERIFICAÇÕES OBRIGATÓRIAS REALIZADAS:
+□ Volume de concreto utilizado: [___] m³
+□ Resistência do concreto (fck): [___] MPa
+□ Adensamento com vibrador: [sim / não]
+□ Número de corpos de prova moldados: [___]
+□ Tempo de início da concretagem: [___]h
+□ Temperatura estimada: [___]°C
+
+PRÓXIMOS PASSOS:
+(cura do concreto — prazo, método e cuidados necessários)
+
+Formate como PDF de relatório técnico de obra.
+                  <button class="btn-copiar" onclick="copiarBloco(this)">Copiar</button></div>
+                <div class="prompt-dica-azul">💡 Guarde este relatório com as fotos em uma pasta por data. Em caso de patologia futura, este é seu histórico técnico da obra.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== ETAPA 4: ALVENARIA ==================== -->
+    <div class="etapa-card" id="etapa-4">
+      <div class="etapa-header" onclick="toggleEtapa(4)">
+        <div class="etapa-numero" style="background:#FFF8E0;color:#B87A00;">🧱</div>
+        <div class="etapa-info">
+          <div class="etapa-nome">Alvenaria e Vedação</div>
+          <div class="etapa-desc">Do esboço ao layout de paredes, análise de prumo e verificação de problemas</div>
+          <div class="etapa-tags">
+            <span class="tag-camera">📸 Análise</span>
+            <span class="tag-geracao">🎨 Geração</span>
+            <span class="tag">Pedreiro</span>
+            <span class="tag">Mestre de obras</span>
+            <span class="tag">Dono da obra</span>
+          </div>
+        </div>
+        <span class="etapa-toggle" id="toggle-4">▼</span>
+      </div>
+
+      <div class="etapa-corpo" id="corpo-4">
+        <div class="secao-prompts">
+          <div class="secao-titulo">
+            <div class="secao-icone" style="background:#FFF8E0;color:#B87A00;">📸</div>
+            Análise de alvenaria por imagem
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header" onclick="togglePrompt(this)">
+              <div class="prompt-card-icone">📏</div>
+              <div>
+                <div class="prompt-card-titulo">Foto de parede em execução → Análise de prumo e juntas</div>
+                <div class="prompt-card-subtitulo">Parede torta no começo = dor de cabeça no acabamento</div>
+              </div>
+              <span class="prompt-card-badge badge-foto">📸 Foto</span>
+            </div>
+            <div class="prompt-card-corpo">
+              <div class="prompt-texto-area">
+                <div class="prompt-descricao">📎 <strong>Anexe:</strong> foto da parede em construção, de frente e/ou de lado, com a maior área possível visível.</div>
+                <div class="prompt-bloco">Esta foto mostra uma parede de alvenaria em execução na minha obra.
+
+Analise visualmente:
+1. As juntas horizontais (rejuntes entre fiadas) aparentam estar niveladas?
+2. As juntas verticais estão alternadas (sistema de meia-junta) ou alinhadas (errado)?
+3. A espessura das juntas parece uniforme (padrão: 10–15mm)?
+4. Há tijolos visivelmente tortos, inclinados ou saindo do alinhamento?
+5. As fiadas estão bem assentadas ou há ondulações na parede?
+6. Os vãos de janela e porta estão com vergas/contravergas?
+
+Material utilizado: [tijolo cerâmico furado / tijolo maciço / bloco de concreto / bloco de vidro / drywall]
+Altura atual da parede: aproximadamente [___] m
+A parede tem: [prumo de alumínio / fio de prumo / nada de referência visível]
+
+Parecer visual: EXCELENTE / DENTRO DO PADRÃO / NECESSITA AJUSTE / REFAZER
+                  <button class="btn-copiar" onclick="copiarBloco(this)">Copiar</button></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header" onclick="togglePrompt(this)">
+              <div class="prompt-card-icone">🔴</div>
+              <div>
+                <div class="prompt-card-titulo">Foto de trinca ou fissura → Diagnóstico de causa e gravidade</div>
+                <div class="prompt-card-subtitulo">Nem toda trinca é estrutural — saiba a diferença antes de entrar em pânico</div>
+              </div>
+              <span class="prompt-card-badge badge-emergencia">Emergência</span>
+            </div>
+            <div class="prompt-card-corpo">
+              <div class="prompt-texto-area">
+                <div class="prompt-descricao">📎 <strong>Anexe:</strong> foto clara e próxima da trinca/fissura, e se possível outra foto mostrando o ambiente completo onde está.</div>
+                <div class="prompt-bloco">Esta foto mostra uma trinca/fissura que encontrei na minha [parede / laje / viga / pilar / verga].
+
+Analise visualmente e me diga:
+1. Direção da fissura: [horizontal / vertical / diagonal / mapa de fissura (couro de jacaré)]
+2. Qual é a causa mais provável com base no padrão visual?
+3. Classificação visual: [microfissura / fissura / trinca / rachadura]
+4. É provavelmente estrutural ou de movimentação/retração?
+5. Está em ponto crítico da estrutura?
+
+Contexto que posso oferecer:
+- Localização: [parede externa / interna / teto / piso]
+- Apareceu quando: [durante a obra / depois de chuva / depois do reboco / anos após construção]
+- Tem umidade associada: [sim / não / não sei]
+- Largura estimada: [menor que 0,5mm / 0,5–2mm / maior que 2mm]
+- A construção tem: [___] anos
+
+Nível de urgência: pode aguardar visita técnica / chamar engenheiro esta semana / PARE TUDO E CHAME AGORA
+                  <button class="btn-copiar" onclick="copiarBloco(this)">Copiar</button></div>
+                <div class="prompt-dica">⚠️ Trincas em pilares, vigas ou com padrão generalizado = engenheiro estrutural imediatamente. A IA auxilia no diagnóstico inicial, não substitui laudos técnicos.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header" onclick="togglePrompt(this)">
+              <div class="prompt-card-icone">🏗</div>
+              <div>
+                <div class="prompt-card-titulo">Layout de paredes no papel → Visualização 3D do ambiente</div>
+                <div class="prompt-card-subtitulo">Veja como vai ficar o interior antes de levantar as paredes</div>
+              </div>
+              <span class="prompt-card-badge badge-foto">📸 Foto</span>
+            </div>
+            <div class="prompt-card-corpo">
+              <div class="prompt-texto-area">
+                <div class="prompt-descricao">📎 <strong>Anexe:</strong> foto da planta baixa do pavimento (pode ser o desenho do arquiteto ou um croqui feito por você).</div>
+                <div class="prompt-bloco">Esta é a planta baixa do meu [sala + cozinha / quarto / banheiro / área de serviço].
+
+Com base no layout de paredes desta planta, gere uma visualização 3D interior do ambiente:
+
+Ambiente escolhido para visualizar: [sala de estar / cozinha / suite / banheiro social / área gourmet]
+Pé-direito: [___] m
+Estilo de acabamento desejado:
+- Piso: [porcelanato / cerâmica / madeira / cimento queimado / granito]
+- Paredes: [reboco pintado / revestimento até o teto / lambri de madeira / papel de parede]
+- Teto: [laje aparente / forro de gesso / forro de madeira]
+- Marcenaria: [planejada integrada / móveis soltos / sem móveis na visualização]
+- Iluminação: [natural (janelas do projeto) / luz indireta de gesso / spot embutido]
+
+Ângulo da visualização: [visão de quem entra pela porta / visão panorâmica / visão da janela]
+Qualidade: render fotorrealista, iluminação de interiores profissional.
+                  <button class="btn-copiar" onclick="copiarBloco(this)">Copiar</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="checklist-area">
+          <div class="checklist-titulo">✅ Checklist de alvenaria — confira antes de iniciar o reboco</div>
+          <div class="checklist-item"><div class="check-box" onclick="marcar(this)"></div><span>Todas as paredes no prumo (máx. 5mm por metro)</span></div>
+          <div class="checklist-item"><div class="check-box" onclick="marcar(this)"></div><span>Vãos de portas e janelas com vergas e contravergas executadas</span></div>
+          <div class="checklist-item"><div class="check-box" onclick="marcar(this)"></div><span>Rasgos para tubulação elétrica e hidráulica marcados e executados</span></div>
+          <div class="checklist-item"><div class="check-box" onclick="marcar(this)"></div><span>Caixas de instalação embutidas e niveladas com a parede</span></div>
+          <div class="checklist-item"><div class="check-box" onclick="marcar(this)"></div><span>Amarração das paredes aos pilares com ferros de espera</span></div>
+          <div class="checklist-item"><div class="check-box" onclick="marcar(this)"></div><span>Fotos de todas as paredes salvas antes do reboco (documentação)</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== ETAPA 5: TELHADO ==================== -->
+    <div class="etapa-card" id="etapa-5">
+      <div class="etapa-header" onclick="toggleEtapa(5)">
+        <div class="etapa-numero" style="background:#FFF0E8;color:#E85C1A;">🏠</div>
+        <div class="etapa-info">
+          <div class="etapa-nome">Cobertura e Telhado</div>
+          <div class="etapa-desc">Renders de tipo de telhado, inspeção visual e diagnóstico de infiltrações</div>
+          <div class="etapa-tags">
+            <span class="tag-camera">📸 Análise</span>
+            <span class="tag-geracao">🎨 Geração</span>
+            <span class="tag">Telhadista</span>
+            <span class="tag">Carpinteiro</span>
+            <span class="tag">Dono da obra</span>
+          </div>
+        </div>
+        <span class="etapa-toggle" id="toggle-5">▼</span>
+      </div>
+
+      <div class="etapa-corpo" id="corpo-5">
+        <div class="secao-prompts">
+          <div class="secao-titulo">
+            <div class="secao-icone" style="background:#FFF0E8;color:#E85C1A;">🎨</div>
+            Visualizar e comparar tipos de telhado
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header" onclick="togglePrompt(this)">
+              <div class="prompt-card-icone">🏠</div>
+              <div>
+                <div class="prompt-card-titulo">Foto da casa sem telhado → Comparativo de opções de cobertura</div>
+                <div class="prompt-card-subtitulo">Veja 3 opções de telhado na sua casa real antes de decidir</div>
+              </div>
+              <span class="prompt-card-badge badge-foto">📸 Foto</span>
+            </div>
+            <div class="prompt-card-corpo">
+              <div class="prompt-texto-area">
+                <div class="prompt-descricao">📎 <strong>Anexe:</strong> foto da sua casa em obras (com a laje ou estrutura da cobertura já visível, sem a telha).</div>
+                <div class="prompt-bloco">Esta foto mostra minha casa em obras, ainda sem a cobertura definitiva.
+
+Gere 3 versões desta mesma casa, mantendo a estrutura exatamente igual, mostrando como ficaria com cada tipo de telhado:
+
+VERSÃO A: Telhado cerâmico colonial (2 águas / 4 águas)
+VERSÃO B: Telhado metálico trapezoidal em [cor: grafite / prata / verde]
+VERSÃO C: Laje impermeabilizada com jardim/vegetação
+
+Para cada versão:
+- Calhas e rufos aparentes ou ocultos?
+- Beiral: sem beiral / beiral pequeno 30cm / beiral generoso 60cm
+- Forros: madeira aparente / forro de PVC / gesso / sem forro visível
+
+Mantenha a perspectiva e ângulo da minha foto original.
+Apresente as 3 versões lado a lado em formato comparativo 16:9, com legenda identificando cada opção e custo estimado relativo (+ / ++ / +++).
+                  <button class="btn-copiar" onclick="copiarBloco(this)">Copiar</button></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header" onclick="togglePrompt(this)">
+              <div class="prompt-card-icone">🔍</div>
+              <div>
+                <div class="prompt-card-titulo">Foto do telhado existente → Laudo visual de inspeção</div>
+                <div class="prompt-card-subtitulo">Detecte problemas antes da próxima chuva</div>
+              </div>
+              <span class="prompt-card-badge badge-emergencia">Emergência</span>
+            </div>
+            <div class="prompt-card-corpo">
+              <div class="prompt-texto-area">
+                <div class="prompt-descricao">📎 <strong>Anexe:</strong> foto do telhado (de cima se possível, ou de perto mostrando as telhas). Se houver goteira interna, foto da mancha no teto também ajuda.</div>
+                <div class="prompt-bloco">Esta foto mostra o telhado da minha construção [tipo: cerâmico / fibrocimento / metálico / shingle / manta asfáltica / laje com impermeabilização].
+
+Analise visualmente e faça um LAUDO DE INSPEÇÃO VISUAL:
+
+1. Telhas quebradas, deslocadas ou com encaixe incorreto? Em qual região?
+2. Calhas com entulho, entupidas ou mal posicionadas?
+3. Rufos ou arremates aparentemente mal vedados ou corroídos?
+4. Sinal de musgo ou bolor (indicativo de umidade acumulada)?
+5. Estrutura de madeira visível com sinais de apodrecimento?
+6. Cumeeira sem vedação ou com manta danificada?
+
+Contexto:
+- Há goteira já confirmada? [sim — onde / não / não sei]
+- Última manutenção do telhado: [___] anos/meses atrás
+- Inclinação aparente: [plano / pouco inclinado / bastante inclinado]
+
+Resultado: TELHADO EM BOA CONDIÇÃO / MANUTENÇÃO PREVENTIVA / REPARO URGENTE / SUBSTITUIÇÃO NECESSÁRIA
+                  <button class="btn-copiar" onclick="copiarBloco(this)">Copiar</button></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header" onclick="togglePrompt(this)">
+              <div class="prompt-card-icone">📐</div>
+              <div>
+                <div class="prompt-card-titulo">Esboço da cobertura → Planta de telhado profissional</div>
+                <div class="prompt-card-subtitulo">Do croqui do pedreiro ao desenho técnico para orçamento</div>
+              </div>
+              <span class="prompt-card-badge badge-foto">📸 Foto</span>
+            </div>
+            <div class="prompt-card-corpo">
+              <div class="prompt-texto-area">
+                <div class="prompt-descricao">📎 <strong>Anexe:</strong> foto do esboço da planta de cobertura (ou da planta baixa para extrair as dimensões).</div>
+                <div class="prompt-bloco">Esta imagem mostra o esboço/planta da cobertura da minha residência.
+
+Converta em planta técnica de telhado com:
+1. Vista superior da cobertura com cumeeiras, rincões e espigões identificados
+2. Indicação da inclinação de cada água (%)
+3. Sentido de escoamento das águas (setas)
+4. Posicionamento de calhas e condutores
+5. Localização do rufos (encontros com paredes)
+6. Cotas das principais dimensões
+
+Dados adicionais:
+- Inclinação desejada: [___]% (mín. recomendado para telha cerâmica: 30% / metálica: 5%)
+- Beiral: [___] cm
+- Tipo de telha prevista: [cerâmica / fibrocimento / metálica / shingle]
+
+Estilo: planta técnica de cobertura, linhas cinza e azul, cotas em vermelho, fundo branco.
+                  <button class="btn-copiar" onclick="copiarBloco(this)">Copiar</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== ETAPA 6: INSTALAÇÕES ==================== -->
+    <div class="etapa-card" id="etapa-6">
+      <div class="etapa-header" onclick="toggleEtapa(6)">
+        <div class="etapa-numero" style="background:#F3EEFF;color:#6B3FA0;">⚡</div>
+        <div class="etapa-info">
+          <div class="etapa-nome">Instalações Elétricas e Hidráulicas</div>
+          <div class="etapa-desc">Transforme croquis em diagramas profissionais e analise instalações em execução</div>
+          <div class="etapa-tags">
+            <span class="tag-camera">📸 Análise</span>
+            <span class="tag-geracao">🎨 Geração</span>
+            <span class="tag">Eletricista</span>
+            <span class="tag">Encanador</span>
+            <span class="tag">Engenheiro</span>
+          </div>
+        </div>
+        <span class="etapa-toggle" id="toggle-6">▼</span>
+      </div>
+
+      <div class="etapa-corpo" id="corpo-6">
+        <div class="secao-prompts">
+          <div class="secao-titulo">
+            <div class="secao-icone" style="background:#F3EEFF;color:#6B3FA0;">📸</div>
+            Análise e transformação de instalações
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header" onclick="togglePrompt(this)">
+              <div class="prompt-card-icone">📒</div>
+              <div>
+                <div class="prompt-card-titulo">Croqui no caderno → Diagrama unifilar elétrico profissional</div>
+                <div class="prompt-card-subtitulo">Do rabisco do eletricista para um documento técnico</div>
+              </div>
+              <span class="prompt-card-badge badge-foto">📸 Foto</span>
+            </div>
+            <div class="prompt-card-corpo">
+              <div class="prompt-texto-area">
+                <div class="prompt-descricao">📎 <strong>Anexe:</strong> foto do croqui/esboço das instalações elétricas feito pelo eletricista ou profissional responsável.</div>
+                <div class="prompt-bloco">Esta foto é de um croqui/esboço das instalações elétricas da minha obra.
+
+Interprete o que está desenhado e gere um DIAGRAMA TÉCNICO PROFISSIONAL mostrando:
+
+1. Quadro de distribuição com os circuitos identificados:
+   - Circuito de iluminação por ambiente
+   - Circuito de tomadas de uso geral (TUG)
+   - Circuito de tomadas de uso específico (TUE): ar-condicionado, chuveiro, fogão, etc.
+   - Disjuntores e bitolas dos cabos por circuito
+
+2. Planta esquemática com localização de:
+   - Pontos de luz (teto e parede)
+   - Tomadas (altura padrão: 30cm do piso para TUG, 1,20m para interruptores)
+   - Interruptores
+   - Caixas de passagem
+
+3. Legenda simbologia elétrica (ABNT NBR 5444)
+
+Estilo: diagrama técnico de instalações elétricas, fundo branco, linhas azuis para circuitos, preto para simbologia.
+                  <button class="btn-copiar" onclick="copiarBloco(this)">Copiar</button></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header" onclick="togglePrompt(this)">
+              <div class="prompt-card-icone">🚿</div>
+              <div>
+                <div class="prompt-card-titulo">Croqui hidráulico → Diagrama isométrico de tubulações</div>
+                <div class="prompt-card-subtitulo">Veja o caminho de cada tubulação antes de fechar as paredes</div>
+              </div>
+              <span class="prompt-card-badge badge-foto">📸 Foto</span>
+            </div>
+            <div class="prompt-card-corpo">
+              <div class="prompt-texto-area">
+                <div class="prompt-descricao">📎 <strong>Anexe:</strong> foto do esboço/croqui das instalações hidráulicas (pode ser feito à mão mesmo).</div>
+                <div class="prompt-bloco">Esta imagem mostra o croqui das instalações hidráulicas da minha obra.
+
+Gere um DIAGRAMA DE INSTALAÇÕES HIDRÁULICAS organizado com:
+
+ÁGUA FRIA (linhas azuis):
+- Alimentação principal do cavalete/hidrômetro
+- Barrilete e colunas de distribuição
+- Ramais para: cozinha / banheiros / área de serviço / jardim
+- Caixas d'água: capacidade e posicionamento
+
+ÁGUA QUENTE (linhas vermelhas):
+- Aquecedor: [solar / elétrico / a gás / boiler]
+- Ramais de água quente para chuveiro e pia
+
+ESGOTO (linhas marrom/cinza):
+- Colunas de esgoto
+- Ramais de descarga (bacia sanitária)
+- Ramais de esgoto (pias, tanques, ralos)
+- Caixas de inspeção e gordura
+- Saída para rede pública ou fossa
+
+INCLINAÇÕES: indicar 2% mínimo para escoamento
+
+Estilo: diagrama isométrico de instalações prediais, fundo branco, cores padronizadas ABNT NBR 8160.
+                  <button class="btn-copiar" onclick="copiarBloco(this)">Copiar</button></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header" onclick="togglePrompt(this)">
+              <div class="prompt-card-icone">🔌</div>
+              <div>
+                <div class="prompt-card-titulo">Foto do quadro elétrico → Análise de organização e segurança</div>
+                <div class="prompt-card-subtitulo">Quadro elétrico bagunçado é risco de incêndio e difícil de manter</div>
+              </div>
+              <span class="prompt-card-badge badge-emergencia">Emergência</span>
+            </div>
+            <div class="prompt-card-corpo">
+              <div class="prompt-texto-area">
+                <div class="prompt-descricao">📎 <strong>Anexe:</strong> foto do quadro de distribuição elétrico (QD) da obra ou da residência existente.</div>
+                <div class="prompt-bloco">Esta foto mostra o quadro de distribuição elétrico da minha [obra em andamento / residência já construída].
+
+Analise visualmente:
+1. Os disjuntores estão organizados e identificados?
+2. Há disjuntor geral (DR ou DPS) instalado?
+3. Os fios estão organizados e passando pelos furos da canaleta ou estão expostos/bagunçados?
+4. Há sinais de superaquecimento (marcas amareladas, fios derretidos)?
+5. O DR (Diferencial Residual) para proteção humana está presente?
+6. O barramento terra (PE — proteção) está presente?
+
+Contexto:
+- Tipo de instalação: [monofásica / bifásica / trifásica]
+- Área da residência: [___] m²
+- Principais cargas: [ar-condicionado / chuveiro elétrico / forno / máquina lavar]
+
+Me entregue:
+- Diagnóstico visual completo
+- Lista de adequações necessárias para atender NR-10 e ABNT NBR 5410
+- Nível de urgência de cada item
+                  <button class="btn-copiar" onclick="copiarBloco(this)">Copiar</button></div>
+                <div class="prompt-dica">⚠️ Instalações elétricas devem ser executadas por eletricista habilitado (NR-10). Quadros com irregularidades graves devem ser corrigidos imediatamente.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header" onclick="togglePrompt(this)">
+              <div class="prompt-card-icone">💧</div>
+              <div>
+                <div class="prompt-card-titulo">Foto de tubulação exposta → Identificar não-conformidades</div>
+                <div class="prompt-card-subtitulo">Antes de fechar a parede é a hora de corrigir</div>
+              </div>
+              <span class="prompt-card-badge badge-foto">📸 Foto</span>
+            </div>
+            <div class="prompt-card-corpo">
+              <div class="prompt-texto-area">
+                <div class="prompt-descricao">📎 <strong>Anexe:</strong> foto das tubulações (elétricas ou hidráulicas) embutidas na parede antes do fechamento (reboco).</div>
+                <div class="prompt-bloco">Esta foto mostra as tubulações embutidas na parede/laje da minha obra, antes do fechamento.
+
+Por favor analise:
+1. Os eletrodutos estão fixados adequadamente (braçadeiras a cada 80cm)?
+2. As curvas dos eletrodutos estão com raio adequado (sem amassamentos)?
+3. As caixas de embutir estão niveladas com a parede?
+4. As tubulações hidráulicas estão fixadas e com inclinação adequada?
+5. Tubulações elétrica e hidráulica estão passando juntas (não pode — risco)?
+6. As emendas de tubos estão com cola e luva adequadas?
+
+Instalação: [elétrica / hidráulica / gás / esgoto / ar-condicionado / mista]
+Posição: [parede interna / laje / piso / parede externa]
+
+Checklist: O que OBRIGATORIAMENTE verificar antes de rebocar?
+                  <button class="btn-copiar" onclick="copiarBloco(this)">Copiar</button></div>
+                <div class="prompt-dica-azul">💡 REGRA DE OURO: Fotografe todas as tubulações embutidas antes de fechar. Essa é a documentação que vai te salvar em reformas futuras.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== ETAPA 7: REVESTIMENTOS ==================== -->
+    <div class="etapa-card" id="etapa-7">
+      <div class="etapa-header" onclick="toggleEtapa(7)">
+        <div class="etapa-numero" style="background:#E8F5EE;color:#1D7A50;">🪟</div>
+        <div class="etapa-info">
+          <div class="etapa-nome">Revestimentos — Piso e Parede</div>
+          <div class="etapa-desc">Projete a cerâmica antes de comprar, analise caimentos e diagnostique problemas</div>
+          <div class="etapa-tags">
+            <span class="tag-camera">📸 Análise</span>
+            <span class="tag-geracao">🎨 Geração</span>
+            <span class="tag">Azulejista</span>
+            <span class="tag">Ladrilheiro</span>
+            <span class="tag">Dono da obra</span>
+          </div>
+        </div>
+        <span class="etapa-toggle" id="toggle-7">▼</span>
+      </div>
+
+      <div class="etapa-corpo" id="corpo-7">
+        <div class="secao-prompts">
+          <div class="secao-titulo">
+            <div class="secao-icone" style="background:#F3EEFF;color:#6B3FA0;">🎨</div>
+            Visualizar revestimentos antes de comprar
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header" onclick="togglePrompt(this)">
+              <div class="prompt-card-icone">🏠</div>
+              <div>
+                <div class="prompt-card-titulo">Foto do cômodo vazio → Simular diferentes tipos de revestimento</div>
+                <div class="prompt-card-subtitulo">Evite arrependimento — teste o visual antes de comprar</div>
+              </div>
+              <span class="prompt-card-badge badge-foto">📸 Foto</span>
+            </div>
+            <div class="prompt-card-corpo">
+              <div class="prompt-texto-area">
+                <div class="prompt-descricao">📎 <strong>Anexe:</strong> foto do cômodo em obras (com paredes rebocadas, antes do revestimento).</div>
+                <div class="prompt-bloco">Esta foto mostra meu [banheiro / cozinha / sala / quarto / área de serviço] sem revestimento ainda.
+
+Gere 3 versões deste mesmo cômodo com diferentes combinações de revestimento para eu comparar antes de comprar:
+
+VERSÃO A — Estilo moderno neutro:
+- Piso: porcelanato 60x60 cinza claro polido
+- Parede: revestimento até o teto em porcelanato branco 30x90 vertical
+- Detalhe: faixa de nicho embutido 15cm (cinza escuro)
+
+VERSÃO B — Estilo madeira natural:
+- Piso: porcelanato amadeirado 20x120, cor nogueira claro
+- Parede: até meia-altura (1,50m) em cimento queimado tom médio
+- Acima: pintura eggshell off-white
+
+VERSÃO C — Estilo zellige/artesanal:
+- Piso: ladrilho hidráulico geométrico 20x20
+- Parede: azulejo artesanal branco com relevo (até o teto no box/bancada)
+- Detalhe: rejunte preto em todas as versões
+
+Mantenha a perspectiva e iluminação da minha foto original. Render fotorrealista.
+                  <button class="btn-copiar" onclick="copiarBloco(this)">Copiar</button></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header" onclick="togglePrompt(this)">
+              <div class="prompt-card-icone">📐</div>
+              <div>
+                <div class="prompt-card-titulo">Medidas no papel → Plano de assentamento (modulação de piso)</div>
+                <div class="prompt-card-subtitulo">Evite cortes inestéticos e desperdício de material</div>
+              </div>
+              <span class="prompt-card-badge badge-foto">📸 Foto</span>
+            </div>
+            <div class="prompt-card-corpo">
+              <div class="prompt-texto-area">
+                <div class="prompt-descricao">📎 <strong>Opcional:</strong> envie foto da planta baixa ou esboço do cômodo com as dimensões.</div>
+                <div class="prompt-bloco">Preciso de um plano de assentamento (modulação) para o piso do meu [ambiente].
+
+Dimensões do cômodo: [___] m x [___] m
+Tipo de piso: [porcelanato / cerâmica / mármore / granito / ladrilho]
+Formato da peça: [___] cm x [___] cm
+Paginação desejada: [em linha reta / 45 graus / espinha-de-peixe / corrido / combinado]
+Rejunte: [___] mm de espessura
+
+Gere uma imagem do PLANO DE ASSENTAMENTO mostrando:
+1. Distribuição das peças no ambiente (vista de cima)
+2. Ponto de início recomendado (por que?)
+3. Identificação das peças inteiras e das que precisam de corte
+4. Posicionamento dos cortes para ficarem em locais menos visíveis
+5. Cálculo de quantidade de peças: inteiras / cortadas / estimativa de caixas (inclua 10% de reserva)
+6. Onde posicionar os paginadores (separadores de dilatação)
+                  <button class="btn-copiar" onclick="copiarBloco(this)">Copiar</button></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header" onclick="togglePrompt(this)">
+              <div class="prompt-card-icone">🔴</div>
+              <div>
+                <div class="prompt-card-titulo">Foto de problema em revestimento → Diagnóstico visual</div>
+                <div class="prompt-card-subtitulo">Eflorescência, gretamento, descolamento e manchas</div>
+              </div>
+              <span class="prompt-card-badge badge-emergencia">Emergência</span>
+            </div>
+            <div class="prompt-card-corpo">
+              <div class="prompt-texto-area">
+                <div class="prompt-descricao">📎 <strong>Anexe:</strong> foto clara do problema no piso ou parede revestida.</div>
+                <div class="prompt-bloco">Esta foto mostra um problema no revestimento da minha construção [piso / parede / azulejo / porcelanato / revestimento externo].
+
+Analise visualmente e me diga:
+1. Qual o tipo de problema que você identifica?
+   [eflorescência (manchas brancas) / gretamento (fissuras na peça) / descolamento (peça oca) / mancha de umidade / rejunte mofado / peças desniveladas / fissura no rejunte]
+2. Qual a causa mais provável?
+3. É um problema de execução, de material ou de manutenção?
+4. Qual o risco se não for tratado? (estético / estrutural / umidade progressiva)
+5. Solução de reparação passo a passo
+
+Contexto adicional:
+- Área interna ou externa?
+- Há umidade próxima (banho / chuva / solo)?
+- Quando apareceu (durante obra / 1 ano / 5 anos+)?
+- Extensão: [localizado em 1 ponto / em faixa / generalizado]
+                  <button class="btn-copiar" onclick="copiarBloco(this)">Copiar</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== ETAPA 8: ACABAMENTOS ==================== -->
+    <div class="etapa-card" id="etapa-8">
+      <div class="etapa-header" onclick="toggleEtapa(8)">
+        <div class="etapa-numero" style="background:#E8EFFE;color:#1A4FA0;">🎨</div>
+        <div class="etapa-info">
+          <div class="etapa-nome">Acabamentos e Pintura</div>
+          <div class="etapa-desc">Simule cores de pintura, analise gesso e crie paletas profissionais</div>
+          <div class="etapa-tags">
+            <span class="tag-camera">📸 Análise</span>
+            <span class="tag-geracao">🎨 Geração</span>
+            <span class="tag">Pintor</span>
+            <span class="tag">Gesseiro</span>
+            <span class="tag">Dono da obra</span>
+          </div>
+        </div>
+        <span class="etapa-toggle" id="toggle-8">▼</span>
+      </div>
+
+      <div class="etapa-corpo" id="corpo-8">
+        <div class="secao-prompts">
+          <div class="secao-titulo">
+            <div class="secao-icone" style="background:#E8EFFE;color:#1A4FA0;">🎨</div>
+            Simular pintura e acabamentos
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header" onclick="togglePrompt(this)">
+              <div class="prompt-card-icone">🖌</div>
+              <div>
+                <div class="prompt-card-titulo">Foto da fachada → Simular cores de pintura</div>
+                <div class="prompt-card-subtitulo">Teste 3 paletas de cor antes de comprar uma lata</div>
+              </div>
+              <span class="prompt-card-badge badge-foto">📸 Foto</span>
+            </div>
+            <div class="prompt-card-corpo">
+              <div class="prompt-texto-area">
+                <div class="prompt-descricao">📎 <strong>Anexe:</strong> foto da fachada da casa (rebocada mas ainda sem pintura, ou com a pintura que quer mudar).</div>
+                <div class="prompt-bloco">Esta é uma foto da fachada da minha casa. Quero simular diferentes opções de pintura antes de decidir.
+
+Gere 3 versões desta mesma fachada com combinações de cores diferentes:
+
+PALETA A — Clássica e atemporal:
+- Corpo principal: branco gelo
+- Detalhes (molduras, pilares, pingadeiras): cinza chumbo
+- Portão e esquadrias: grafite fosco
+
+PALETA B — Moderna e arrojada:
+- Corpo principal: cimento queimado (tom médio)
+- Faixa de destaque: preto mate nos detalhes
+- Esquadrias: preto
+- Accento: madeira natural na porta de entrada
+
+PALETA C — Terrosa e aconchegante:
+- Corpo principal: bege areia quente (próximo ao Suvinil "Areia do Mar")
+- Detalhes: branco para ressaltar frisos
+- Portão: verde musgo
+- Esquadrias: branco
+
+Mantenha a arquitetura, perspectiva e luz da minha foto. Render fotorrealista.
+Mostre as 3 em comparativo lado a lado com o nome das cores em cada versão.
+                  <button class="btn-copiar" onclick="copiarBloco(this)">Copiar</button></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header" onclick="togglePrompt(this)">
+              <div class="prompt-card-icone">🛋</div>
+              <div>
+                <div class="prompt-card-titulo">Foto do ambiente → Simular cores internas + mobiliário</div>
+                <div class="prompt-card-subtitulo">Veja como o ambiente ficará mobiliado e pintado</div>
+              </div>
+              <span class="prompt-card-badge badge-foto">📸 Foto</span>
+            </div>
+            <div class="prompt-card-corpo">
+              <div class="prompt-texto-area">
+                <div class="prompt-descricao">📎 <strong>Anexe:</strong> foto do cômodo (pode ser o ambiente ainda em obras ou já pronto com outra decoração).</div>
+                <div class="prompt-bloco">Esta foto mostra meu [sala / quarto / cozinha / varanda] [em obras / já pronto].
+
+Quero visualizar o ambiente reformado/decorado. Por favor gere:
+
+Aplicar na parede: [cor / textura — ex: cinza esverdeado suave, cimento queimado, papel de parede geométrico, ripado de madeira vertical]
+Tipo de acabamento: [fosco / acetinado / semi-brilho / textura]
+
+Mobiliário a inserir:
+- [Sofá: cor / estilo / material]
+- [Mesa de centro: [material]]
+- [Estante/TV: [material]]
+- [Tapete: [cor / estampado / sólido]]
+- [Iluminação pendente: [estilo]]
+- [Plantas: [sim / não]]
+
+Manter o que já existe na foto: [piso existente / janelas existentes / pé-direito]
+
+Estilo geral desejado: [minimalista / aconchegante / industrial / escandinavo / boho / contemporâneo brasileiro]
+Render fotorrealista de interiores de alto padrão.
+                  <button class="btn-copiar" onclick="copiarBloco(this)">Copiar</button></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header" onclick="togglePrompt(this)">
+              <div class="prompt-card-icone">🔍</div>
+              <div>
+                <div class="prompt-card-titulo">Foto de gesso/reboco → Análise de imperfeições e qualidade</div>
+                <div class="prompt-card-subtitulo">Libere o gesseiro para pintura somente quando estiver realmente OK</div>
+              </div>
+              <span class="prompt-card-badge badge-foto">📸 Foto</span>
+            </div>
+            <div class="prompt-card-corpo">
+              <div class="prompt-texto-area">
+                <div class="prompt-descricao">📎 <strong>Anexe:</strong> foto do teto ou parede com gesso/reboco aplicado, mostrando a superfície com luz rasante se possível.</div>
+                <div class="prompt-bloco">Esta foto mostra a superfície de [gesso liso / reboco / massa corrida / stucco] da minha obra, antes da pintura.
+
+Analise a qualidade da superfície visualmente:
+1. Há ondulações ou imperfeições visíveis na superfície?
+2. Existem fissuras ou trincas superficiais (retração)?
+3. Juntas ou emendas do gesso estão visíveis?
+4. A superfície aparenta estar pronta para receber tinta ou precisa de massa corrida?
+5. Há manchas escuras que podem indicar umidade subjacente?
+
+Dica: para fotografar defeitos de gesso, tire a foto com iluminação rasante (lanterna do lado, não de frente).
+
+Tipo de acabamento: [gesso liso / reboco paulista / argamassa / massa corrida PVA / massa acrílica]
+Superfície: [teto / parede interna / parede externa]
+
+Classificação: PRONTO PARA PINTAR / LIXAR E REGULARIZAR / APLICAR NOVA DEMÃO / REFAZER O TRECHO
+                  <button class="btn-copiar" onclick="copiarBloco(this)">Copiar</button></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header" onclick="togglePrompt(this)">
+              <div class="prompt-card-icone">🎨</div>
+              <div>
+                <div class="prompt-card-titulo">Referências de estilo → Criar paleta profissional da residência</div>
+                <div class="prompt-card-subtitulo">Uma paleta coesa unifica toda a obra</div>
+              </div>
+              <span class="prompt-card-badge badge-gerar">🎨 Geração</span>
+            </div>
+            <div class="prompt-card-corpo">
+              <div class="prompt-texto-area">
+                <div class="prompt-descricao">📎 <strong>Opcional:</strong> envie fotos de referências de ambientes que você gostou.</div>
+                <div class="prompt-bloco">Crie uma PALETA DE CORES COMPLETA para minha residência com base nas minhas preferências:
+
+Estilo geral: [moderno / rústico / tropical / escandinavo / clássico / industrial]
+Tons que gosto: [neutros / quentes / frios / terrosos / vibrantes]
+Cores que NÃO quero: [___]
+Número de ambientes: [___]
+
+A paleta deve incluir:
+1. COR PRINCIPAL (corpo das paredes internas) — 60% da residência
+2. COR SECUNDÁRIA (detalhes, nichos, paredes de destaque) — 30%
+3. COR DE ACENTO (objetos, almofadas, detalhes decorativos) — 10%
+4. COR DE FACHADA (exterior)
+5. COR DE ESQUADRIAS (portas e janelas)
+6. SUGESTÃO DE MARCA/LINHA:
+   - Tinta Suvinil linha ___: cor ___ / código ___
+   - Tinta Coral linha ___: cor ___ / código ___
+
+Apresente como um PAINEL DE PALETA profissional com amostras de cor, nomes, códigos e proporção de uso em cada ambiente.
+                  <button class="btn-copiar" onclick="copiarBloco(this)">Copiar</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="checklist-area">
+          <div class="checklist-titulo">✅ Checklist de acabamentos — antes de liberar o pintor</div>
+          <div class="checklist-item"><div class="check-box" onclick="marcar(this)"></div><span>Todas as fissuras de reboco tratadas com selante ou fibra</span></div>
+          <div class="checklist-item"><div class="check-box" onclick="marcar(this)"></div><span>Mínimo 2 demãos de tinta (3 para cores escuras ou vivas)</span></div>
+          <div class="checklist-item"><div class="check-box" onclick="marcar(this)"></div><span>Lixamento entre demãos realizado (lixa 220 para teto)</span></div>
+          <div class="checklist-item"><div class="check-box" onclick="marcar(this)"></div><span>Fachada com tinta acrílica premium com proteção UV e anti-mofo</span></div>
+          <div class="checklist-item"><div class="check-box" onclick="marcar(this)"></div><span>Rodapé instalado e selado antes da última demão de piso</span></div>
+          <div class="checklist-item"><div class="check-box" onclick="marcar(this)"></div><span>Foto final de cada cômodo registrada e salva com data</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== ETAPA 9: GESTÃO ==================== -->
+    <div class="etapa-card" id="etapa-9">
+      <div class="etapa-header" onclick="toggleEtapa(9)">
+        <div class="etapa-numero" style="background:#1A1A18;color:#E85C1A;">⭐</div>
+        <div class="etapa-info">
+          <div class="etapa-nome">📊 Gestão Visual da Obra</div>
+          <div class="etapa-desc">Relatórios fotográficos, antes/depois, planilhas a partir de fotos e monitoramento</div>
+          <div class="etapa-tags">
+            <span class="tag-camera">📸 Análise</span>
+            <span class="tag-geracao">🎨 Geração</span>
+            <span class="tag">Dono da obra</span>
+            <span class="tag">Gerente de obra</span>
+            <span class="tag">Incorporador</span>
+          </div>
+        </div>
+        <span class="etapa-toggle" id="toggle-9">▼</span>
+      </div>
+
+      <div class="etapa-corpo" id="corpo-9">
+        <div class="secao-prompts">
+          <div class="secao-titulo">
+            <div class="secao-icone" style="background:#FFF0E8;color:#E85C1A;">📊</div>
+            Controle e documentação visual da obra
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header" onclick="togglePrompt(this)">
+              <div class="prompt-card-icone">📋</div>
+              <div>
+                <div class="prompt-card-titulo">Foto de caderno com notas → Relatório semanal profissional</div>
+                <div class="prompt-card-subtitulo">Transforme o diário do mestre em documento formal</div>
+              </div>
+              <span class="prompt-card-badge badge-foto">📸 Foto</span>
+            </div>
+            <div class="prompt-card-corpo">
+              <div class="prompt-texto-area">
+                <div class="prompt-descricao">📎 <strong>Anexe:</strong> foto das anotações do caderno de obra (do mestre, do pedreiro ou do dono).</div>
+                <div class="prompt-bloco">Esta foto mostra as anotações do diário de obra desta semana.
+
+Por favor, extraia as informações visíveis e organize em um RELATÓRIO SEMANAL DE OBRA profissional:
+
+CABEÇALHO:
+- Obra: [___]
+- Responsável: [___]
+- Semana: [___]
+
+SEÇÃO 1 — SERVIÇOS EXECUTADOS
+(liste o que conseguir identificar na foto)
+
+SEÇÃO 2 — MATERIAIS RECEBIDOS / UTILIZADOS
+(tabela: material | quantidade | fornecedor)
+
+SEÇÃO 3 — MÃO DE OBRA
+(número de trabalhadores, serviços por função)
+
+SEÇÃO 4 — OCORRÊNCIAS
+(problemas, paralisações, clima, visitas técnicas)
+
+SEÇÃO 5 — PRÓXIMOS PASSOS (semana seguinte)
+
+SEÇÃO 6 — FOTOS DO DIA
+[deixe espaço para inserir fotos]
+
+Apresente em formato de relatório técnico formal, adequado para envio ao proprietário ou financiador da obra.
+                  <button class="btn-copiar" onclick="copiarBloco(this)">Copiar</button></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header" onclick="togglePrompt(this)">
+              <div class="prompt-card-icone">📅</div>
+              <div>
+                <div class="prompt-card-titulo">Foto do estado atual da obra → Comparativo antes/depois de etapa</div>
+                <div class="prompt-card-subtitulo">Documente o progresso e apresente para quem está financiando</div>
+              </div>
+              <span class="prompt-card-badge badge-dono">Dono</span>
+            </div>
+            <div class="prompt-card-corpo">
+              <div class="prompt-texto-area">
+                <div class="prompt-descricao">📎 <strong>Anexe:</strong> 2 fotos — uma do início da etapa e outra do estado atual (ou final).</div>
+                <div class="prompt-bloco">Estas duas fotos mostram a mesma área da minha obra em momentos diferentes:
+- FOTO 1: [estado inicial / antes de iniciar a etapa]
+- FOTO 2: [estado atual / após conclusão da etapa]
+
+Crie um PAINEL DE PROGRESSO VISUAL profissional com:
+
+1. As duas fotos lado a lado com identificação ANTES / DEPOIS
+2. Linha do tempo abaixo mostrando em qual etapa da obra estamos:
+   [Projeto → Fundação → Estrutura → Alvenaria → Cobertura → Instalações → Revestimentos → Acabamentos → Entrega]
+3. Box de resumo da etapa concluída:
+   - Etapa: [___]
+   - Início: [___]
+   - Conclusão: [___]
+   - % de avanço geral da obra estimado: [___]%
+4. Próxima etapa em destaque com prazo estimado
+5. Logo Supremo Alicerce no rodapé
+
+Estilo: relatório de engenharia profissional, cores da marca (laranja e cinza escuro).
+                  <button class="btn-copiar" onclick="copiarBloco(this)">Copiar</button></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header" onclick="togglePrompt(this)">
+              <div class="prompt-card-icone">💰</div>
+              <div>
+                <div class="prompt-card-titulo">Foto de notas fiscais/recibos → Planilha de controle de gastos</div>
+                <div class="prompt-card-subtitulo">Nunca mais perca o controle do orçamento</div>
+              </div>
+              <span class="prompt-card-badge badge-foto">📸 Foto</span>
+            </div>
+            <div class="prompt-card-corpo">
+              <div class="prompt-texto-area">
+                <div class="prompt-descricao">📎 <strong>Anexe:</strong> fotos de notas fiscais, recibos ou comprovantes de pagamento da obra (pode ser mais de uma por vez).</div>
+                <div class="prompt-bloco">Estas fotos são de [notas fiscais / recibos / comprovantes de pagamento] da minha obra.
+
+Por favor, extraia todas as informações visíveis e organize em uma PLANILHA DE CONTROLE FINANCEIRO:
+
+TABELA PRINCIPAL:
+| Data | Nº NF/Recibo | Fornecedor/Prestador | Descrição | Etapa da Obra | Valor (R$) | Forma de Pgto | Observação |
+
+Após organizar a tabela:
+1. Total gasto até hoje: R$ [soma automática]
+2. Distribuição por etapa da obra (% de cada etapa no gasto total)
+3. Top 3 fornecedores por volume de compra
+4. Alertas: há algum item pago sem nota fiscal?
+5. Sugestão de categorias faltantes (equipamentos, aluguel, mão de obra)
+
+Orçamento original da obra (se tiver): R$ [___]
+Projeção de saldo disponível: R$ [total orçamento - total gasto]
+                  <button class="btn-copiar" onclick="copiarBloco(this)">Copiar</button></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header" onclick="togglePrompt(this)">
+              <div class="prompt-card-icone">🚨</div>
+              <div>
+                <div class="prompt-card-titulo">Foto de problema grave → Relatório técnico para seguradora/financiador</div>
+                <div class="prompt-card-subtitulo">Documente com seriedade quando precisar acionar garantia</div>
+              </div>
+              <span class="prompt-card-badge badge-emergencia">Emergência</span>
+            </div>
+            <div class="prompt-card-corpo">
+              <div class="prompt-texto-area">
+                <div class="prompt-descricao">📎 <strong>Anexe:</strong> fotos do problema identificado na obra (trinca, desabamento, infiltração grave, etc.).</div>
+                <div class="prompt-bloco">SITUAÇÃO: Preciso documentar um problema grave na minha obra para fins de acionamento de [seguro / garantia do construtor / financiadora / CREA].
+
+Estas fotos mostram: [descreva o problema em 1 frase]
+
+Com base nas fotos e no contexto, me ajude a criar um RELATÓRIO TÉCNICO FOTOGRÁFICO com:
+
+1. IDENTIFICAÇÃO:
+   - Data da ocorrência: [___]
+   - Localização exata na obra: [___]
+   - Etapa em que foi identificado: [___]
+
+2. DESCRIÇÃO TÉCNICA DO PROBLEMA:
+   (use linguagem técnica de engenharia civil)
+
+3. REGISTRO FOTOGRÁFICO:
+   (descreva cada foto com legenda técnica)
+
+4. HIPÓTESE DE CAUSA:
+   (com base na análise visual)
+
+5. IMPACTO ESTIMADO:
+   - Risco à segurança: [baixo / médio / alto]
+   - Impacto no cronograma: [dias/semanas de atraso estimado]
+   - Impacto financeiro estimado: R$ [faixa]
+
+6. MEDIDAS IMEDIATAS TOMADAS:
+
+7. SOLICITAÇÕES:
+   - Vistoria técnica urgente: [sim / não]
+   - Parecer estrutural necessário: [sim / não]
+
+Formato: relatório técnico formal, numerado, adequado para protocolo oficial.
+                  <button class="btn-copiar" onclick="copiarBloco(this)">Copiar</button></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="prompt-card">
+            <div class="prompt-card-header" onclick="togglePrompt(this)">
+              <div class="prompt-card-icone">📊</div>
+              <div>
+                <div class="prompt-card-titulo">Dados do andamento → Infográfico de progresso da obra</div>
+                <div class="prompt-card-subtitulo">Visual profissional para apresentar ao banco ou investidor</div>
+              </div>
+              <span class="prompt-card-badge badge-gerar">🎨 Geração</span>
+            </div>
+            <div class="prompt-card-corpo">
+              <div class="prompt-texto-area">
+                <div class="prompt-bloco">Crie um INFOGRÁFICO DE PROGRESSO DE OBRA ultra-moderno e profissional para apresentação ao [banco / família / investidor / prefeitura].
+
+Dados da obra:
+- Nome/endereço: [___]
+- Tipo: [casa / sobrado / prédio / reforma]
+- Área: [___] m²
+- Início da obra: [___]
+- Previsão de entrega: [___]
+- Orçamento total: R$ [___]
+- Gasto até hoje: R$ [___]
+
+PROGRESSO POR ETAPA:
+| Fundação: [___]% | Estrutura: [___]% | Alvenaria: [___]% | Cobertura: [___]% | Instalações: [___]% | Revestimentos: [___]% | Acabamentos: [___]% |
+
+% de avanço geral: [___]%
+
+Design do infográfico:
+- Estilo: painel de obra profissional, como os de construtoras de alto padrão
+- Cores: laranja (#E85C1A), cinza escuro (#1A1A18) e branco
+- Incluir: barra de progresso por etapa + gráfico de Gantt simplificado + indicadores financeiros
+- Formato: A4 retrato ou 16:9 para apresentação digital
+- Logo: Supremo Alicerce no canto superior
+                  <button class="btn-copiar" onclick="copiarBloco(this)">Copiar</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RODAPÉ -->
+  <div class="rodape">
+    <p><strong>Supremo Alicerce</strong> — A melhor base de tecnologia para a construção civil</p>
+    <p style="margin-top:8px; font-size:12px;">Os prompts deste guia são para fins de auxílio técnico e visual. Decisões estruturais, execução de instalações e laudos técnicos requerem profissional habilitado com ART/RRT. Este guia é atualizado conforme novas funcionalidades de IA visual são lançadas.</p>
+  </div>
+
+</div>
+
+<div class="painel-prompt" id="painelPrompt" onclick="voltar()">← Voltar ao início</div>
+
+<script>
+function abrirGuia() {
+  document.getElementById('capa').style.display = 'none';
+  document.getElementById('conteudo').classList.add('ativo');
+  document.getElementById('painelPrompt').classList.add('visivel');
+  window.scrollTo(0,0);
+}
+
+function voltar() {
+  document.getElementById('capa').style.display = 'flex';
+  document.getElementById('conteudo').classList.remove('ativo');
+  document.getElementById('painelPrompt').classList.remove('visivel');
+  window.scrollTo(0,0);
+}
+
+function toggleEtapa(n) {
+  const corpo = document.getElementById('corpo-' + n);
+  const toggle = document.getElementById('toggle-' + n);
+  const aberto = corpo.classList.contains('aberto');
+  corpo.classList.toggle('aberto', !aberto);
+  toggle.classList.toggle('aberto', !aberto);
+}
+
+function togglePrompt(header) {
+  const corpo = header.nextElementSibling;
+  corpo.classList.toggle('aberto');
+}
+
+function irParaEtapa(n) {
+  if (n === 0) {
+    document.getElementById('etapa-0').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else {
+    const el = document.getElementById('etapa-' + n);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const corpo = document.getElementById('corpo-' + n);
+      const toggle = document.getElementById('toggle-' + n);
+      if (corpo && !corpo.classList.contains('aberto')) {
+        corpo.classList.add('aberto');
+        if (toggle) toggle.classList.add('aberto');
+      }
+    }
+  }
+
+  document.querySelectorAll('.nav-btn').forEach((b, i) => {
+    b.classList.toggle('ativo', i === n);
+  });
+}
+
+function copiarBloco(btn) {
+  const bloco = btn.closest('.prompt-bloco');
+  const clone = bloco.cloneNode(true);
+  const btnClone = clone.querySelector('.btn-copiar');
+  if (btnClone) btnClone.remove();
+  const texto = clone.innerText.trim();
+  navigator.clipboard.writeText(texto).then(() => {
+    btn.textContent = '✓ Copiado!';
+    btn.style.background = '#E8F5EE';
+    btn.style.color = '#1D7A50';
+    setTimeout(() => {
+      btn.textContent = 'Copiar';
+      btn.style.background = '';
+      btn.style.color = '';
+    }, 2000);
+  });
+}
+
+function marcar(el) {
+  el.classList.toggle('marcado');
+  el.textContent = el.classList.contains('marcado') ? '✓' : '';
+}
+</script>
+</body>
+</html>
